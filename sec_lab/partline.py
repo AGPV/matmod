@@ -5,6 +5,13 @@ import json
 
 def partline(x, y, t):  # Принимает np массивы с координатами точек и значение x, для которого будет считать
     z = 0
+    # Сортировка пузырьком
+    for i in range(len(x)):
+        for j in range(len(x)-i-1):
+            if x[j] > x[j+1]:
+                x[j], x[j+1] = x[j+1], x[j]  
+                y[j], y[j+1] = y[j+1], y[j]  
+
     for i in range(len(x)-1):
         if t >= x[i] and t <= x[i+1]:
             z = y[i] + (y[i+1]-y[i])*(t-x[i])/(x[i+1]-x[i])

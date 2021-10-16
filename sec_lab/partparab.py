@@ -5,6 +5,13 @@ import json
 
 def partparab(x, y, t):  # Принимает np массивы с координатами точек и значение x, для которого будет считать
     z = 0
+    # Сортировка пузырьком
+    for i in range(len(x)):
+        for j in range(len(x)-i-1):
+            if x[j] > x[j+1]:
+                x[j], x[j+1] = x[j+1], x[j]
+                y[j], y[j+1] = y[j+1], y[j]
+
     for i in range(len(x)-1):
         if t >= x[i] and t <= x[i+1]:
             # Решаем систему уравнений через матрицу
@@ -44,7 +51,7 @@ for label, coord in res:
     x = np.array(coord["x"], dtype=float)
     y = np.array(coord["y"], dtype=float)
     plt.scatter(x, y)
-    xnew = np.linspace(np.min(x), np.max(x), 100)
+    xnew = np.linspace(np.min(x), np.max(x), 1000)
     ynew = [partparab(x, y, i) for i in xnew]
     plt.plot(xnew, ynew)
     leg = leg + list(label)

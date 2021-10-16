@@ -35,4 +35,5 @@ for label, coord in res:
     plt.plot(xnew, ynew)
     leg = leg + list(label)
 plt.legend(leg, loc='best')
+plt.grid(True)
 plt.show()
