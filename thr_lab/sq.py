@@ -17,6 +17,13 @@ def sumres(x,y,v):
     return z
 
 
+def appr(x, y, gr):  
+    fp = np.polyfit(x, y, gr, full=True)[0]
+    f = np.poly1d(fp)
+    fx = np.linspace(np.min(x), np.max(x))
+    plt.plot(fx, f(fx))
+    plt.grid(True)
+    return f
 #
 def sq(x, y, gr):  
     coef = np.zeros((gr, gr)) # Матрица коэффициентов при неизвестных
@@ -50,7 +57,7 @@ grade = int(input("Введите степень аппроксимирующе�
 
 # Записываем, какие номера нам нужно выводить
 shown = list(
-    input("Enter the numbers of the graphs you want to show: ").split())
+    input("Введите номера графиков: ").split())
 
 # Записываем данные из json в массив
 for label in data:
@@ -71,10 +78,9 @@ for label, coord in res:
     x = np.array(coord["x"], dtype=float)
     y = np.array(coord["y"], dtype=float)
     plt.scatter(x, y)
-    print(sq(x,y,grade))
-    xnew = np.linspace(np.min(x), np.max(x), 1000)
-    ynew = [pol(sq(x,y,grade), i) for i in xnew]
-    plt.plot(xnew, ynew)
+    #xnew = np.linspace(np.min(x), np.max(x), 1000)
+    #ynew = appr(x,y,grade)
+    appr(x,y,grade)
     leg = leg + list(label)
 plt.legend(leg, loc='best')
 plt.grid(True)
