@@ -20,7 +20,7 @@ def sumres(x,y,v):
 def appr(x, y, gr):  
     fp = np.polyfit(x, y, gr, full=True)[0]
     f = np.poly1d(fp)
-    fx = np.linspace(np.min(x), np.max(x))
+    fx = np.linspace(np.min(x), np.max(x), 1000)
     plt.plot(fx, f(fx))
     plt.grid(True)
     return f
