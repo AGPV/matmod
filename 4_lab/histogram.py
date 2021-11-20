@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from revfrasp import *
 import numpy as np
+from revfrasp import *
 from gaus import *
 from rel import *
 
@@ -18,9 +18,7 @@ def freley(sig, x):
 #[7 формула из методички]
 def frevmetod(a, b, x):
     if a <= x <= b:
-        return (x - a) / (b - a)
-    elif x >= b:
-        return 1
+        return 1 / (b - a)
     else:
         return 0
 
@@ -28,52 +26,124 @@ def frevmetod(a, b, x):
 def histo(x):
     N = len(x)
     newx = sorted(x)
-    min = newx[0]                 #могу себе позволить, т.к. list отсортирован
-    max = newx[len(newx)-1]       #поправочный множитель = 0
-    d = max - min
-    k = 4 * np.log10(N)
+    a = newx[0]                 #могу себе позволить, т.к. list отсортирован
+    b = newx[len(newx)-1]       #поправочный множитель = 0
+    d = b - a
+    k = 3 * np.log10(N)
     delta = d/k
     bord = []                     #list с границами интервалов
     kbord = [0]                #list с количеством элементов попавших в iтый интервал
     i = 1
     while i <= k:
-        bord.append((min + (i - 1) * delta, min + i * delta))
+        bord.append((a + (i - 1) * delta, a + i * delta))
         i += 1
     i = 0
-    for check in newx:              #работает, но где-то погрешность, всегда одинаковая для одинаковых k
+    for check in newx:
         if check <= bord[i][1]:
             kbord[i] += 1
         else:
             i += 1
             kbord.append(1)
     freq = []
+    midx = []
     i = 0
     while i <= len(kbord)-1:
-        freq.append(kbord[i]/N)
+        freq.append(kbord[i]/(N))
+        
+        midx.append((bord[i-1][0]+bord[i-1][1])/2)   #криво сломал и криво починил, на 12 час кодинга адекватного решения не вижу, не понимаю в чём ошибка и как я её решил
         i += 1
 
-    return newx, freq
+    return newx, freq, midx
+    #return freq
 
-def histandnpol(ver, a, b, n, mw, disp, sig):
+
+def poly(x):
+    N = len(x)
+    newx = sorted(x)
+    a = newx[0]                 #могу себе позволить, т.к. list отсортирован
+    b = newx[len(newx)-1]       #поправочный множитель = 0
+    d = b - a
+    k = 3 * np.log10(N)
+    delta = d/k
+    bord = []                     #list с границами интервалов
+    kq = [0]                #list с количеством элементов попавших в iтый интервал
+    q = 1
+    while q <= k:
+        bord.append((a, a + q * delta))
+        q += 1
+    i = 0
+    for check in newx:
+        if check <= bord[i][1]:
+            kq[i] += 1
+        else:
+            i += 1
+            kq.append(1)
+    
+    q = 1
+    freqx = [a]
+    while q <= k:
+        freqx.append(a + q * delta)
+        q += 1
+
+    q = 0
+    freqy = []
+    while q <= k:
+        freqy.append(kq[q-1]/N)
+        q += 1
+    
+    return freqx, freqy
+
+
+
+def histdraw(ver, a, b, n, mw, disp, sig):
     r=[]
     if ver == 1:
-        test, y = histo(revmetod(a, b, n))
-        for temp in test:
+        newx, y, midx = histo(revmetod(a, b, n))
+        for temp in newx:
             r.append(frevmetod(a, b, temp))
 
     elif ver == 2:
-        test, y = histo(gauss(mw, disp, n))
-        for temp in test:
+        newx, y, midx = histo(gauss(mw, disp, n))
+        for temp in newx:
             r.append(fgauss(mw, disp, temp))
 
     elif ver == 3:
-        test, y = histo(reley(a, b, n, sig))
-        for temp in test:
+        newx, y, midx = histo(reley(a, b, n, sig))
+        for temp in newx:
             r.append(freley(sig, temp))
     else: 
         return print("WRONG version")
     fig, ax = plt.subplots()
-    x = range(len(y))
+    x = midx
+    
+    ax.grid()
     ax.bar(x, y)
-    plt.plot(test, r)
+    plt.plot(newx, r)
     plt.show()
+    return y
+
+def polydraw(ver, a, b, n, mw, disp, sig):
+    r=[]
+    if ver == 1:
+        x, y = poly(revmetod(a, b, n))
+        for temp in x:
+            r.append(frevmetod(a, b, temp))
+
+    elif ver == 2:
+        x, y = poly(gauss(mw, disp, n))
+        for temp in x:
+            r.append(fgauss(mw, disp, temp))
+
+    elif ver == 3:
+        x, y = poly(reley(a, b, n, sig))
+        for temp in x:
+            r.append(freley(sig, temp))
+    else: 
+        return print("WRONG version")
+    fig, ax = plt.subplots()
+    ax.step(x, y, "g-o", where= 'post')          #'pre', 'post', 'mid'
+    ax.grid()
+    plt.plot(x, r)
+    plt.show()
+    return y
+#print(histo(gauss(0, 2, 1000)))
