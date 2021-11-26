@@ -6,10 +6,10 @@ import random as rnd
 def probden(x, b):
     return (x / (b ** 2)) * np.exp(-1 * ((x ** 2) / (2 * (b ** 2))))    #[11 формула в методичке]
 
-def reley(a, b, n, sig):
+def reley(a, b, n, sig):         #TODO: вспомнить откуда вызывается и удалить ненужную "а"
     res = []
+    a = 0
     m = probden(sig,sig)    #верхняя граница
-
     #disp = (2 - np.pi/2)*(b**2)     #дисперсия
     i = 0
     while i < n:
