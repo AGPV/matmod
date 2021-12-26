@@ -66,7 +66,7 @@ def histo(x, ver):
     i = 0
     while i <= len(kbord):
         if (ver != 2):                  #топ костыль, законтрил Гаусса
-            freq.append(kbord[i-1]/(N * delta))
+            freq.append(kbord[i-1]/(N))
         else:
             freq.append(kbord[i-1]/(N))
         midx.append((bord[i-1][0]+bord[i-1][1])/2)   #криво сломал и криво починил, на 12 час кодинга адекватного решения не вижу, не понимаю в чём ошибка и как я её решил
