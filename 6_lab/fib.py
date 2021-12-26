@@ -1,10 +1,11 @@
-import numpy as np
 from function import function
+
 
 def fibonacci(n):
     if n in (1, 2):
         return 1
     return fibonacci(n - 1) + fibonacci(n - 2)
+
 
 def fib(a, b, n):
     xl = a + ((fibonacci(n-2)/fibonacci(n))*(b-a))
@@ -16,7 +17,7 @@ def fib(a, b, n):
         if (yl < yr):
             a = xl
             xl = xr
-            xr = b - (xl -a)
+            xr = b - (xl - a)
             yl = yr
             yr = function(xr)
         else:

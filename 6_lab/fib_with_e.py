@@ -1,14 +1,15 @@
-import numpy as np
 from function import function
+
 
 def fibonacci(n):
     if n in (1, 2):
         return 1
     return fibonacci(n - 1) + fibonacci(n - 2)
 
+
 def fib(a, b, n, e):
     while(((b-a)/fibonacci(n)) > e):
-        n+=1
+        n += 1
     nstart = n
     xl = a + ((fibonacci(n-2)/fibonacci(n))*(b-a))
     xr = a + ((fibonacci(n-1)/fibonacci(n))*(b-a))
@@ -19,7 +20,7 @@ def fib(a, b, n, e):
         if (yl < yr):
             a = xl
             xl = xr
-            xr = b - (xl -a)
+            xr = b - (xl - a)
             yl = yr
             yr = function(xr)
         else:

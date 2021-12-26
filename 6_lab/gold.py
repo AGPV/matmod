@@ -1,5 +1,5 @@
-import numpy as np
 from function import function
+
 
 def gold(a, b, e):
     FI = 1.618
@@ -9,15 +9,15 @@ def gold(a, b, e):
 
     n = 0
     while((b-a)/2 >= e):
-      n += 1
-      yl = function(x1)
-      yr = function(x2)
-      if yl < yr:
-        a = x1
-        x1 = x2
-        x2 = b - (x1 - a)
-      elif yl > yr:
-        b = x2
-        x2 = x1
-        x1 = a + (b - x2)
+        n += 1
+        yl = function(x1)
+        yr = function(x2)
+        if yl < yr:
+            a = x1
+            x1 = x2
+            x2 = b - (x1 - a)
+        elif yl > yr:
+            b = x2
+            x2 = x1
+            x1 = a + (b - x2)
     return (a+b)/2, n
