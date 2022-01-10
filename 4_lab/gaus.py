@@ -10,12 +10,12 @@ def gauss(mw, disp, count): #(мат. ожидание, дисперсия)
     for i in range(count):
         v = 0
         for j in range(n):
-            v += rnd.random()-0.5
+            v += rnd.random()
         res = gausraspr(n, v, mw, disp)
         x.append(res)
     return x
 
 def gausraspr(n, v, mw, disp): #[15 формула из методички]
-    eps = np.sqrt(12/n)*v
+    eps = np.sqrt(12/n)*(v-n/2)
     res = disp * eps + mw
     return res

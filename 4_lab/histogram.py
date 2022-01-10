@@ -65,7 +65,7 @@ def histo(x, ver):
     midx = []
     i = 0
     while i <= len(kbord):
-        if (ver != 2):                  #топ костыль, законтрил Гаусса
+        if (ver != 2):                 
             freq.append(kbord[i-1]/(N))
         else:
             freq.append(kbord[i-1]/(N))
